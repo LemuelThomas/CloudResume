@@ -1,3 +1,4 @@
+# Creating the lambda function in AWS
 resource "aws_lambda_function" "myfunc" {
     filename = data.archive_file.zip.output_path
     source_code_hash = data.archive_file.zip.output_base64sha256
@@ -7,6 +8,7 @@ resource "aws_lambda_function" "myfunc" {
     runtime = "python3.8"
 }
 
+# Creating the lambda IAM role
 resource "aws_iam_role" "iam_for_lambda" {
     name = "iam_for_lambda"
 
@@ -26,13 +28,14 @@ resource "aws_iam_role" "iam_for_lambda" {
 }
 EOF
 }
-
+# Zipping the lambda function
 data "archive_file" "zip" {
     type = "zip"
     source_dir = "${path.module}/lambda"
     output_path = "${path.module/packedlambda.zip}"
 }
 
+# Creating the lambda url for the 'index.js' to use
 resource "aws_lambda_function_url" "url1" {
     function_name = aws_lambda_function.myfunc.function_name
     authorization_type = "NONE"
