@@ -1,3 +1,4 @@
+# Use AWS with version greater than or equal to 4.9.0
 terraform {
     required_providers {
         aws = {
